@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+from utils import print_section_header, print_section_footer
 
 def load_data(file_path, skiprows=8):
     """Load the Excel file, skipping the specified number of rows."""
@@ -21,8 +22,9 @@ def assign_category(description, custom_categories):
 
 def categorize_transactions(df, custom_categories):
     """Categorize transactions in the DataFrame."""
-    print(f"Concepts:")
+    print_section_header("Concepts")
     df['Category'] = df['Concepto'].apply(assign_category, args=(custom_categories,))
+    print_section_footer()
     return df
 
 def summarize_transactions(df):

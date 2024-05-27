@@ -2,3 +2,4 @@
 *.xlsx
 venv
 categories.json
+__pycache__
