@@ -33,17 +33,17 @@ def summarize_transactions(df):
     income = df[df['Importe'] > 0]
 
     print("\nCategorized Income:")
-    for category, group in income.groupby('Category'):
-        total = group['Importe'].sum()
+    income_summary = income.groupby('Category')['Importe'].sum().sort_values(ascending=False)
+    for category, total in income_summary.items():
         print(f"    {category}: {total:.2f} EUR")
-    total_income = income['Importe'].sum()
+    total_income = income_summary.sum()
     print(f"Total Income: {format_currency(total_income)}")
 
     print("\nCategorized Expenses:")
-    for category, group in expenses.groupby('Category'):
-        total = group['Importe'].sum()
+    expenses_summary = expenses.groupby('Category')['Importe'].sum().sort_values()
+    for category, total in expenses_summary.items():
         print(f"    {category}: {total:.2f} EUR")
-    total_expenses = expenses['Importe'].sum()
+    total_expenses = expenses_summary.sum()
     print(f"Total Expenses: {format_currency(total_expenses)}")
 
     total_savings = total_income + total_expenses
