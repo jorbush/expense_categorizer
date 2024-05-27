@@ -1,3 +1,4 @@
 *.xls
 *.xlsx
 venv
+categories.json

@@ -1,29 +1,25 @@
 import pandas as pd
+import json
 
 file_path = 'expenses.xls'
 df = pd.read_excel(file_path, skiprows=8)
 
+with open('categories.json', 'r') as file:
+    custom_categories = json.load(file)
+
+def assign_category(description):
+    description_lower = description.lower()
+    print(f"    {description_lower}")
+    for category, keywords in custom_categories.items():
+        if any(keyword in description_lower for keyword in keywords):
+            return category
+    return 'Others'
+
 def categorize_transactions(df):
-    custom_categories = {
-        'Supermarket': ['caprabo', 'mercadona', 'carrefour', 'lidl', 'la sirena', 'dia', 'bonpreu', 'bon area'],
-        'Entertainment': ['netflix', 'spotify', 'itunes'],
-        'Bar/Restaurants': ['bar', 'fornet', 'restaurant', 'pizzeria', 'mcdonalds', 'heladeria', 'ramen', 'sushi', 'l ovella'],
-        'Bizum': ['bizum'],
-        'Shopping': ['amazon', 'revolut', 'mini mercat'],
-    }
-
-    def assign_category(description):
-        description_lower = description.lower()
-        print(f"    {description_lower}")
-        for category, keywords in custom_categories.items():
-            if any(keyword in description_lower for keyword in keywords):
-                return category
-        return 'Others'
-
+    print("\nConcepts:")
     df['Category'] = df['Concepto'].apply(assign_category)
     return df
 
-print("\nConcepts:")
 df = categorize_transactions(df)
 
 expenses = df[df['Importe'] < 0]
