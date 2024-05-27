@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-from utils import print_section_header, print_section_footer
+from utils import print_section_header, print_section_footer, initialize_colorama, format_currency
 
 def load_data(file_path, skiprows=8):
     """Load the Excel file, skipping the specified number of rows."""
@@ -37,17 +37,17 @@ def summarize_transactions(df):
         total = group['Importe'].sum()
         print(f"    {category}: {total:.2f} EUR")
     total_expenses = expenses['Importe'].sum()
-    print(f"Total Expenses: {total_expenses:.2f} EUR")
+    print(f"Total Expenses: {format_currency(total_expenses)}")
 
     print("\nCategorized Income:")
     for category, group in income.groupby('Category'):
         total = group['Importe'].sum()
         print(f"    {category}: {total:.2f} EUR")
     total_income = income['Importe'].sum()
-    print(f"Total Income: {total_income:.2f} EUR")
+    print(f"Total Income: {format_currency(total_income)}")
 
     total_savings = total_income + total_expenses
-    print(f"\nTotal Savings: {total_savings:.2f} EUR")
+    print(f"\nTotal Savings: {format_currency(total_savings)}")
 
 def save_categorized_data(df, output_path):
     """Save the categorized DataFrame to an Excel file."""
@@ -55,6 +55,7 @@ def save_categorized_data(df, output_path):
     print(f"\nThe categorized file has been saved to: {output_path}")
 
 def main():
+    initialize_colorama()
     file_path = 'expenses.xls'
     json_path = 'categories.json'
     output_path = 'categorized_file.xlsx'
