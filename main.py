@@ -35,19 +35,19 @@ def summarize_transactions(df):
     print("\nCategorized Income:")
     income_summary = income.groupby('Category')['Importe'].sum().sort_values(ascending=False)
     for category, total in income_summary.items():
-        print(f"    {category}: {total:.2f} EUR")
+        print(f"    {category:.<40} {total:.2f} EUR")
     total_income = income_summary.sum()
-    print(f"Total Income: {format_currency(total_income)}")
+    print(f"{'Total Income':.<44} {format_currency(total_income)}")
 
     print("\nCategorized Expenses:")
     expenses_summary = expenses.groupby('Category')['Importe'].sum().sort_values()
     for category, total in expenses_summary.items():
-        print(f"    {category}: {total:.2f} EUR")
+        print(f"    {category:.<40} {total:.2f} EUR")
     total_expenses = expenses_summary.sum()
-    print(f"Total Expenses: {format_currency(total_expenses)}")
+    print(f"{'Total Expenses':.<44} {format_currency(total_expenses)}")
 
     total_savings = total_income + total_expenses
-    print(f"\nTotal Savings: {format_currency(total_savings)}")
+    print(f"\n{'Total Savings':.<44} {format_currency(total_savings)}")
 
 def save_categorized_data(df, output_path):
     """Save the categorized DataFrame to an Excel file."""
