@@ -1,6 +1,7 @@
 import pandas as pd
 import json
 from utils import print_section_header, print_section_footer, initialize_colorama, format_currency
+import sys
 
 def load_data(file_path, skiprows=8):
     """Load the Excel file, skipping the specified number of rows."""
@@ -56,7 +57,7 @@ def save_categorized_data(df, output_path):
 
 def main():
     initialize_colorama()
-    file_path = 'expenses.xls'
+    file_path = sys.argv[1]
     json_path = 'categories.json'
     output_path = 'categorized_file.xlsx'
 
